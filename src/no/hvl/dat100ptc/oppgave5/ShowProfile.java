@@ -6,15 +6,16 @@ import no.hvl.dat100ptc.oppgave1.GPSPoint;
 import no.hvl.dat100ptc.oppgave2.GPSData;
 import no.hvl.dat100ptc.oppgave2.GPSDataConverter;
 import no.hvl.dat100ptc.oppgave2.GPSDataFileReader;
+import no.hvl.dat100ptc.oppgave3.GPSUtils;
 import no.hvl.dat100ptc.oppgave4.GPSComputer;
 
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicBorders;
 
 public class ShowProfile extends EasyGraphics {
 
-	private static int MARGIN = 50;		// margin on the sides 
-	
-	//FIXME: use highest point and scale accordingly
+	private static int MARGIN = 50;		// margin on the sides
+
 	private static int MAXBARHEIGHT = 500; // assume no height above 500 meters
 	
 	private GPSPoint[] gpspoints;
@@ -25,7 +26,17 @@ public class ShowProfile extends EasyGraphics {
 		GPSComputer gpscomputer =  new GPSComputer(filename);
 
 		gpspoints = gpscomputer.getGPSPoints();
-		
+
+		int max = (int)gpspoints[0].getElevation();
+
+		for (GPSPoint point : gpspoints)
+		{
+			if (point.getElevation() > max)
+			{
+				max = (int)point.getElevation();
+			}
+		}
+		MAXBARHEIGHT = max;
 	}
 
 	public static void main(String[] args) {
@@ -46,11 +57,12 @@ public class ShowProfile extends EasyGraphics {
 
 		// ybase indicates the position on the y-axis where the columns should start
 		
-		// TODO - START
+		setColor(0, 0, 255);
 
-		throw new UnsupportedOperationException(TODO.method());
-	
-		// TODO - SLUTT
+		for (int i = 0; i < gpspoints.length; i++)
+		{
+			fillRectangle( MARGIN + 3 * i, ybase - (int)gpspoints[i].getElevation(), 2, (int)gpspoints[i].getElevation());
+		}
+
 	}
-
 }

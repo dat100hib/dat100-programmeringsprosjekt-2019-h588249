@@ -1,6 +1,7 @@
 package no.hvl.dat100ptc.oppgave5;
 
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicBorders;
 
 import easygraphics.EasyGraphics;
 import no.hvl.dat100ptc.TODO;
@@ -45,11 +46,16 @@ public class ShowSpeed extends EasyGraphics {
 		
 		System.out.println("Angi tidsskalering i tegnevinduet ...");
 		int timescaling = Integer.parseInt(getText("Tidsskalering"));
-				
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-	
-		// TODO - SLUTT
+
+		setColor(0, 0, 255);
+
+		for (int i = 0; i < gpspoints.length - 1; i++)
+		{
+			drawRectangle( MARGIN + 2 * i, ybase - (int)GPSUtils.speed(gpspoints[i], gpspoints[i + 1]) * timescaling, 0, (int)GPSUtils.speed(gpspoints[i], gpspoints[i + 1]) * timescaling);
+		}
+
+		setColor(0, 255, 0);
+
+		drawRectangle(MARGIN, ybase - (int)gpscomputer.averageSpeed() * timescaling - 1, N * 2, 1);
 	}
 }
